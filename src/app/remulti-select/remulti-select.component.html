@@ -1,0 +1,45 @@
+<div class="multi-select-container">
+  <div class="multi-select-dropdown" (click)="toggleDropdown()">
+    <ng-container *ngIf="selectedItems.length > 0; else placeholder">
+      <ng-container *ngIf="selectedItems.length <= 2; else moreSelected">
+        <div *ngFor="let item of selectedItems" class="multi-select-item">
+          {{ item.name }}
+        </div>
+      </ng-container>
+      <ng-template #moreSelected>
+        <div class="multi-select-item">
+          {{ selectedItems[0].name }}, {{ selectedItems[1].name }}, +
+          {{ selectedItems.length - 2 }}...
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #placeholder>
+      <div class="multi-select-placeholder">Select options</div>
+    </ng-template>
+    <div class="multi-select-arrow">&#9662;</div>
+  </div>
+  <div *ngIf="dropdownOpen" class="multi-select-options">
+    <input
+      type="text"
+      placeholder="Search..."
+      (input)="filterItems($event)"
+      class="multi-select-search"
+    />
+    <label class="multi-select-option">
+      <input
+        type="checkbox"
+        [checked]="allSelected"
+        (change)="onSelectAllChange($event)"
+      />
+      Select All
+    </label>
+    <label *ngFor="let item of filteredItems" class="multi-select-option">
+      <input
+        type="checkbox"
+        [checked]="isSelected(item)"
+        (change)="onItemChange(item, $event)"
+      />
+      {{ item.name }}
+    </label>
+  </div>
+</div>

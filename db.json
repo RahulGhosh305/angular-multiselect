@@ -1,0 +1,30 @@
+{
+  "divisions": [
+    { "id": "1", "name": "Chattogram" },
+    { "id": "2", "name": "Dhaka" }
+  ],
+  "districts": [
+    { "id": "1", "divisionId": "1", "name": "Chattogram" },
+    { "id": "2", "divisionId": "1", "name": "Cox's Bazar" },
+    { "id": "3", "divisionId": "2", "name": "Dhaka" },
+    { "id": "4", "divisionId": "2", "name": "Gazipur" }
+  ],
+  "upazilas": [
+    { "id": "1", "districtId": "1", "name": "Anwara" },
+    { "id": "2", "districtId": "1", "name": "Banshkhali" },
+    { "id": "3", "districtId": "3", "name": "Dhanmondi" },
+    { "id": "4", "districtId": "3", "name": "Mirpur" }
+  ],
+  "thanas": [
+    { "id": "1", "upazilaId": "1", "name": "Anwara Thana" },
+    { "id": "2", "upazilaId": "2", "name": "Banshkhali Thana" },
+    { "id": "3", "upazilaId": "3", "name": "Dhanmondi Thana" },
+    { "id": "4", "upazilaId": "4", "name": "Mirpur Thana" }
+  ],
+  "wards": [
+    { "id": "1", "thanaId": "1", "name": "Ward 1" },
+    { "id": "2", "thanaId": "2", "name": "Ward 2" },
+    { "id": "3", "thanaId": "3", "name": "Ward 3" },
+    { "id": "4", "thanaId": "4", "name": "Ward 4" }
+  ]
+}

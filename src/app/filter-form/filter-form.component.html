@@ -1,0 +1,54 @@
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="division">Division *</label>
+        <select formControlName="division" id="division" class="form-control">
+          <option value="">Select Division</option>
+          <option *ngFor="let division of divisions" [value]="division.id">
+            {{ division.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="district">District *</label>
+        <select formControlName="district" id="district" class="form-control">
+          <option value="">Select District</option>
+          <option *ngFor="let district of districts" [value]="district.id">
+            {{ district.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="upazila">Upazila *</label>
+        <select formControlName="upazila" id="upazila" class="form-control">
+          <option value="">Select Upazila</option>
+          <option *ngFor="let upazila of upazilas" [value]="upazila.id">
+            {{ upazila.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="thana">Thana *</label>
+        <select formControlName="thana" id="thana" class="form-control">
+          <option value="">Select Thana</option>
+          <option *ngFor="let thana of thanas" [value]="thana.id">
+            {{ thana.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="ward">Ward *</label>
+        <select formControlName="ward" id="ward" class="form-control">
+          <option value="">Select Ward</option>
+          <option *ngFor="let ward of wards" [value]="ward.id">
+            {{ ward.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>

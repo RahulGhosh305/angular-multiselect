@@ -1,9 +1,13 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
+  Output,
+  SimpleChanges,
 } from "@angular/core";
 
 @Component({
@@ -11,8 +15,9 @@ import {
   templateUrl: "./remulti-select.component.html",
   styleUrls: ["./remulti-select.component.css"],
 })
-export class RemultiSelectComponent implements OnInit {
+export class RemultiSelectComponent implements OnInit, OnChanges {
   @Input() items: any[] = [];
+  @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   selectedItems: any[] = [];
   dropdownOpen = false;
@@ -23,7 +28,12 @@ export class RemultiSelectComponent implements OnInit {
 
   ngOnInit() {
     this.filteredItems = this.items;
-    console.log("datapoint", this.items);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.items && !changes.items.firstChange) {
+      this.filteredItems = this.items;
+    }
   }
 
   toggleDropdown() {
@@ -41,6 +51,7 @@ export class RemultiSelectComponent implements OnInit {
       this.selectedItems = this.selectedItems.filter((i) => i !== item);
     }
     this.allSelected = this.selectedItems.length === this.items.length;
+    this.selectionChange.emit(this.selectedItems);
   }
 
   filterItems(event: any) {
@@ -57,9 +68,9 @@ export class RemultiSelectComponent implements OnInit {
       this.selectedItems = [];
     }
     this.allSelected = event.target.checked;
+    this.selectionChange.emit(this.selectedItems);
   }
 
-  // Click outside for hide options
   @HostListener("document:click", ["$event"])
   onClickOutside(event: any) {
     if (!this.elementRef.nativeElement.contains(event.target)) {

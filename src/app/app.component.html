@@ -1,45 +1,63 @@
-{{ divisions | json }}
 <div class="container mt-5">
-  <div class="row">
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="form-group">
-        <label for="division" class="mr-2">Division:</label>
-        <app-remulti-select [items]="divisions"></app-remulti-select>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="division" class="mr-2">Division:</label>
+          <app-remulti-select
+            formControlName="division"
+            [items]="divisions"
+            (selectionChange)="onDivisionChange($event)"
+          ></app-remulti-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="district" class="mr-2">District:</label>
+          <app-remulti-select
+            formControlName="district"
+            [items]="districts"
+            (selectionChange)="onDistrictChange($event)"
+          ></app-remulti-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="upazila" class="mr-2">Upazila:</label>
+          <app-remulti-select
+            formControlName="upazila"
+            [items]="upazilas"
+            (selectionChange)="onUpazilaChange($event)"
+          ></app-remulti-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="thana" class="mr-2">Thana:</label>
+          <app-remulti-select
+            formControlName="thana"
+            [items]="thanas"
+            (selectionChange)="onThanaChange($event)"
+          ></app-remulti-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="form-group">
+          <label for="ward" class="mr-2">Ward:</label>
+          <app-remulti-select
+            formControlName="ward"
+            [items]="wards"
+          ></app-remulti-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3" style="margin-top: 32px">
+        <button
+          type="submit"
+          class="btn btn-success align-self-end align-items-end"
+        >
+          Submit
+        </button>
       </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="form-group">
-        <label for="district" class="mr-2">District:</label>
-        <app-remulti-select [items]="districts"></app-remulti-select>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="form-group">
-        <label for="upazila" class="mr-2">Upazila:</label>
-        <app-remulti-select [items]="upazilas"></app-remulti-select>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="form-group">
-        <label for="thana" class="mr-2">Thana:</label>
-        <app-remulti-select [items]="thanas"></app-remulti-select>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="form-group">
-        <label for="ward" class="mr-2">Ward:</label>
-        <app-remulti-select [items]="wards"></app-remulti-select>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-3" style="margin-top: 32px">
-      <button
-        type="submit"
-        class="btn btn-success align-self-end align-items-end"
-      >
-        Submit
-      </button>
-    </div>
-  </div>
+  </form>
 </div>
-
-<!-- <app-filter-form></app-filter-form> -->

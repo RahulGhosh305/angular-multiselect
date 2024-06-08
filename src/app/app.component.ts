@@ -1,133 +1,190 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { LocationService } from "./location.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent {
-  title = "angular-chartjs";
-  divisions = [
-    { name: "Division 1" },
-    { name: "Division 2" },
-    { name: "Division 3" },
-  ];
-  districts = [
-    { name: "District 1" },
-    { name: "District 2" },
-    { name: "District 3" },
-  ];
-  upazilas = [
-    { name: "Upazila 1" },
-    { name: "Upazila 2" },
-    { name: "Upazila 3" },
-  ];
-  thanas = [{ name: "Thana 1" }, { name: "Thana 2" }, { name: "Thana 3" }];
-  wards = [{ name: "Ward 1" }, { name: "Ward 2" }, { name: "Ward 3" }];
+export class AppComponent implements OnInit, OnDestroy {
+  filterForm: FormGroup;
+  divisions: any[] = [];
+  districts: any[] = [];
+  upazilas: any[] = [];
+  thanas: any[] = [];
+  wards: any[] = [];
+  subscriptions: Subscription[] = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private locationService: LocationService
+  ) {}
+
+  ngOnInit() {
+    this.initializeForm();
+    this.getDivisions();
+    this.subscribeToFormChanges();
+  }
+
+  private initializeForm() {
+    this.filterForm = this.fb.group({
+      division: [""],
+      district: [""],
+      upazila: [""],
+      thana: [""],
+      ward: [""],
+    });
+  }
+
+  private subscribeToFormChanges() {
+    this.subscriptions.push(
+      this.filterForm.get("division").valueChanges.subscribe((value) => {
+        if (value) {
+          this.getDistricts(value);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.filterForm.get("district").valueChanges.subscribe((value) => {
+        if (value) {
+          this.getUpazilas(value);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.filterForm.get("upazila").valueChanges.subscribe((value) => {
+        if (value) {
+          this.getThanas(value);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.filterForm.get("thana").valueChanges.subscribe((value) => {
+        if (value) {
+          this.getWards(value);
+        }
+      })
+    );
+  }
+
+  getDivisions() {
+    this.locationService.getDivisions().subscribe(
+      (data) => {
+        this.divisions = data;
+        console.log("Divisions:", this.divisions);
+      },
+      (error) => {
+        console.error("Error fetching divisions:", error);
+      }
+    );
+  }
+
+  getDistricts(divisionId: string) {
+    this.locationService.getDistricts(divisionId).subscribe(
+      (data) => {
+        this.districts = data;
+        console.log("Districts:", this.districts);
+        this.filterForm.patchValue({
+          district: "",
+          upazila: "",
+          thana: "",
+          ward: "",
+        });
+        this.clearSubsequentLevels(["upazilas", "thanas", "wards"]);
+      },
+      (error) => {
+        console.error("Error fetching districts:", error);
+      }
+    );
+  }
+
+  getUpazilas(districtId: string) {
+    this.locationService.getUpazilas(districtId).subscribe(
+      (data) => {
+        this.upazilas = data;
+        console.log("Upazilas:", this.upazilas);
+        this.filterForm.patchValue({ upazila: "", thana: "", ward: "" });
+        this.clearSubsequentLevels(["thanas", "wards"]);
+      },
+      (error) => {
+        console.error("Error fetching upazilas:", error);
+      }
+    );
+  }
+
+  getThanas(upazilaId: string) {
+    this.locationService.getThanas(upazilaId).subscribe(
+      (data) => {
+        this.thanas = data;
+        console.log("Thanas:", this.thanas);
+        this.filterForm.patchValue({ thana: "", ward: "" });
+        this.clearSubsequentLevels(["wards"]);
+      },
+      (error) => {
+        console.error("Error fetching thanas:", error);
+      }
+    );
+  }
+
+  getWards(thanaId: string) {
+    this.locationService.getWards(thanaId).subscribe(
+      (data) => {
+        this.wards = data;
+        console.log("Wards:", this.wards);
+        this.filterForm.patchValue({ ward: "" });
+      },
+      (error) => {
+        console.error("Error fetching wards:", error);
+      }
+    );
+  }
 
   onSubmit() {
-    // Handle form submission logic
+    if (this.filterForm.valid) {
+      console.log(this.filterForm.value);
+    }
+  }
+
+  private clearSubsequentLevels(levels: string[]) {
+    levels.forEach((level) => {
+      this[level] = [];
+    });
+  }
+
+  onDivisionChange(selectedItems: any[]) {
+    const divisionIds = selectedItems.map((item) => item.id);
+    if (divisionIds.length) {
+      this.getDistricts(divisionIds.join(","));
+    }
+  }
+
+  onDistrictChange(selectedItems: any[]) {
+    const districtIds = selectedItems.map((item) => item.id);
+    if (districtIds.length) {
+      this.getUpazilas(districtIds.join(","));
+    }
+  }
+
+  onUpazilaChange(selectedItems: any[]) {
+    const upazilaIds = selectedItems.map((item) => item.id);
+    if (upazilaIds.length) {
+      this.getThanas(upazilaIds.join(","));
+    }
+  }
+
+  onThanaChange(selectedItems: any[]) {
+    const thanaIds = selectedItems.map((item) => item.id);
+    if (thanaIds.length) {
+      this.getWards(thanaIds.join(","));
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }
-
-// import { Component, OnInit } from "@angular/core";
-// import { FormBuilder, FormGroup } from "@angular/forms";
-// import { LocationService } from "./location.service";
-
-// @Component({
-//   selector: "app-root",
-//   templateUrl: "./app.component.html",
-//   styleUrls: ["./app.component.css"],
-// })
-// export class AppComponent implements OnInit {
-//   filterForm: FormGroup;
-//   divisions: any[] = [];
-//   districts: any[] = [];
-//   upazilas: any[] = [];
-//   thanas: any[] = [];
-//   wards: any[] = [];
-
-//   constructor(
-//     private fb: FormBuilder,
-//     private locationService: LocationService
-//   ) {
-//     this.filterForm = this.fb.group({
-//       division: [""],
-//       district: [""],
-//       upazila: [""],
-//       thana: [""],
-//       ward: [""],
-//     });
-//   }
-
-//   ngOnInit() {
-//     this.getDivisions();
-//     this.filterForm.get("division").valueChanges.subscribe((value) => {
-//       if (value) {
-//         console.log(value);
-//         this.getDistricts(value);
-//       }
-//     });
-//     this.filterForm.get("district").valueChanges.subscribe((value) => {
-//       if (value) {
-//         this.getUpazilas(value);
-//       }
-//     });
-//     this.filterForm.get("upazila").valueChanges.subscribe((value) => {
-//       if (value) {
-//         this.getThanas(value);
-//       }
-//     });
-//     this.filterForm.get("thana").valueChanges.subscribe((value) => {
-//       if (value) {
-//         this.getWards(value);
-//       }
-//     });
-//   }
-
-//   getDivisions() {
-//     this.locationService.getDivisions().subscribe((data) => {
-//       this.divisions = data;
-//     });
-//   }
-
-//   getDistricts(divisionId: string) {
-//     this.locationService.getDistricts(divisionId).subscribe((data) => {
-//       this.districts = data;
-//       this.filterForm.get("district").setValue("");
-//       this.upazilas = [];
-//       this.thanas = [];
-//       this.wards = [];
-//     });
-//   }
-
-//   getUpazilas(districtId: string) {
-//     this.locationService.getUpazilas(districtId).subscribe((data) => {
-//       this.upazilas = data;
-//       this.filterForm.get("upazila").setValue("");
-//       this.thanas = [];
-//       this.wards = [];
-//     });
-//   }
-
-//   getThanas(upazilaId: string) {
-//     this.locationService.getThanas(upazilaId).subscribe((data) => {
-//       this.thanas = data;
-//       this.filterForm.get("thana").setValue("");
-//       this.wards = [];
-//     });
-//   }
-
-//   getWards(thanaId: string) {
-//     this.locationService.getWards(thanaId).subscribe((data) => {
-//       this.wards = data;
-//       this.filterForm.get("ward").setValue("");
-//     });
-//   }
-
-//   onSubmit() {
-//     if (this.filterForm.valid) {
-//       console.log(this.filterForm.value);
-//     }
-//   }
-// }

@@ -1,3 +1,4 @@
+// RemultiSelectComponent
 import {
   Component,
   ElementRef,
@@ -17,6 +18,7 @@ import {
 })
 export class RemultiSelectComponent implements OnInit, OnChanges {
   @Input() items: any[] = [];
+  @Input() reset: boolean = false;
   @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   selectedItems: any[] = [];
@@ -33,6 +35,13 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.items && !changes.items.firstChange) {
       this.filteredItems = this.items;
+    }
+
+    // Reset selected items when reset input is changed to true
+    if (changes.reset && changes.reset.currentValue) {
+      this.selectedItems = [];
+      this.allSelected = false;
+      this.selectionChange.emit(this.selectedItems);
     }
   }
 

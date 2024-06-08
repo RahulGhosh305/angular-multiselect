@@ -17,6 +17,12 @@ export class AppComponent implements OnInit, OnDestroy {
   wards: any[] = [];
   subscriptions: Subscription[] = [];
 
+  resetDivisions: boolean = false;
+  resetDistricts: boolean = false;
+  resetUpazilas: boolean = false;
+  resetThanas: boolean = false;
+  resetWards: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private locationService: LocationService
@@ -157,30 +163,87 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onDivisionChange(selectedItems: any[]) {
-    const divisionIds = selectedItems.map((item) => item.id);
-    if (divisionIds.length) {
+    if (selectedItems.length) {
+      const divisionIds = selectedItems.map((item) => item.id);
       this.getDistricts(divisionIds.join(","));
+    } else {
+      // If all divisions are deselected, clear districts and subsequent levels
+      this.districts = [];
+      this.upazilas = [];
+      this.thanas = [];
+      this.wards = [];
+
+      // Clear the selected values in the filter form and reset the selected items in RemultiSelectComponent
+      this.filterForm.patchValue({
+        district: "",
+        upazila: "",
+        thana: "",
+        ward: "",
+      });
+      this.resetDistricts = true;
+      this.resetUpazilas = true;
+      this.resetThanas = true;
+      this.resetWards = true;
     }
   }
 
   onDistrictChange(selectedItems: any[]) {
-    const districtIds = selectedItems.map((item) => item.id);
-    if (districtIds.length) {
+    if (selectedItems.length) {
+      const districtIds = selectedItems.map((item) => item.id);
       this.getUpazilas(districtIds.join(","));
+    } else {
+      // If all districts are deselected, clear upazilas and subsequent levels
+      this.upazilas = [];
+      this.thanas = [];
+      this.wards = [];
+
+      // Clear the selected values in the filter form
+      this.filterForm.patchValue({
+        upazila: "",
+        thana: "",
+        ward: "",
+      });
+
+      this.resetUpazilas = true;
+      this.resetThanas = true;
+      this.resetWards = true;
     }
   }
 
   onUpazilaChange(selectedItems: any[]) {
-    const upazilaIds = selectedItems.map((item) => item.id);
-    if (upazilaIds.length) {
+    if (selectedItems.length) {
+      const upazilaIds = selectedItems.map((item) => item.id);
       this.getThanas(upazilaIds.join(","));
+    } else {
+      // If all upazilas are deselected, clear thanas and subsequent levels
+      this.thanas = [];
+      this.wards = [];
+
+      // Clear the selected values in the filter form
+      this.filterForm.patchValue({
+        thana: "",
+        ward: "",
+      });
+
+      this.resetThanas = true;
+      this.resetWards = true;
     }
   }
 
   onThanaChange(selectedItems: any[]) {
-    const thanaIds = selectedItems.map((item) => item.id);
-    if (thanaIds.length) {
+    if (selectedItems.length) {
+      const thanaIds = selectedItems.map((item) => item.id);
       this.getWards(thanaIds.join(","));
+    } else {
+      // If all thanas are deselected, clear wards
+      this.wards = [];
+
+      // Clear the selected values in the filter form
+      this.filterForm.patchValue({
+        ward: "",
+      });
+
+      this.resetWards = true;
     }
   }
 

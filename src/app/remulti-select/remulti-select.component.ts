@@ -9,12 +9,20 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  forwardRef,
 } from "@angular/core";
-
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
 @Component({
   selector: "app-remulti-select",
   templateUrl: "./remulti-select.component.html",
   styleUrls: ["./remulti-select.component.css"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RemultiSelectComponent),
+      multi: true,
+    },
+  ],
 })
 export class RemultiSelectComponent implements OnInit, OnChanges {
   @Input() items: any[] = [];
@@ -26,6 +34,21 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
   dropdownOpen = false;
   filteredItems: any[] = [];
   allSelected = false;
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  writeValue(selectedItems: any[]): void {
+    this.selectedItems = selectedItems || [];
+  }
 
   constructor(private elementRef: ElementRef) {}
 

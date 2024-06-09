@@ -63,9 +63,11 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
 
     // Reset selected items when reset input is changed to true
     if (changes.reset && changes.reset.currentValue) {
-      this.selectedItems = [];
-      this.allSelected = false;
-      this.selectionChange.emit(this.selectedItems);
+      setTimeout(() => {
+        this.selectedItems = [];
+        this.allSelected = false;
+        this.selectionChange.emit(this.selectedItems);
+      });
     }
   }
 

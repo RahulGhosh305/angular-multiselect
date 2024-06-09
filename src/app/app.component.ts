@@ -1,3 +1,4 @@
+// app.component.ts
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -168,23 +169,17 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getDistricts(divisionIds.join(","));
     } else {
       // If all divisions are deselected, clear districts and subsequent levels
-      this.districts = [];
-      this.upazilas = [];
-      this.thanas = [];
-      this.wards = [];
-
-      // Clear the selected values in the filter form and reset the selected items in RemultiSelectComponent
-      this.filterForm.patchValue({
-        district: "",
-        upazila: "",
-        thana: "",
-        ward: "",
-      });
-      this.resetDistricts = true;
-      this.resetUpazilas = true;
-      this.resetThanas = true;
-      this.resetWards = true;
+      this.clearLevelsAndResetForm([
+        "districts",
+        "upazilas",
+        "thanas",
+        "wards",
+      ]);
     }
+  }
+
+  onDivisionClear() {
+    this.clearLevelsAndResetForm(["districts", "upazilas", "thanas", "wards"]);
   }
 
   onDistrictChange(selectedItems: any[]) {
@@ -193,21 +188,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getUpazilas(districtIds.join(","));
     } else {
       // If all districts are deselected, clear upazilas and subsequent levels
-      this.upazilas = [];
-      this.thanas = [];
-      this.wards = [];
-
-      // Clear the selected values in the filter form
-      this.filterForm.patchValue({
-        upazila: "",
-        thana: "",
-        ward: "",
-      });
-
-      this.resetUpazilas = true;
-      this.resetThanas = true;
-      this.resetWards = true;
+      this.clearLevelsAndResetForm(["upazilas", "thanas", "wards"]);
     }
+  }
+
+  onDistrictClear() {
+    this.clearLevelsAndResetForm(["upazilas", "thanas", "wards"]);
   }
 
   onUpazilaChange(selectedItems: any[]) {
@@ -216,18 +202,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getThanas(upazilaIds.join(","));
     } else {
       // If all upazilas are deselected, clear thanas and subsequent levels
-      this.thanas = [];
-      this.wards = [];
-
-      // Clear the selected values in the filter form
-      this.filterForm.patchValue({
-        thana: "",
-        ward: "",
-      });
-
-      this.resetThanas = true;
-      this.resetWards = true;
+      this.clearLevelsAndResetForm(["thanas", "wards"]);
     }
+  }
+
+  onUpazilaClear() {
+    this.clearLevelsAndResetForm(["thanas", "wards"]);
   }
 
   onThanaChange(selectedItems: any[]) {
@@ -236,15 +216,31 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getWards(thanaIds.join(","));
     } else {
       // If all thanas are deselected, clear wards
-      this.wards = [];
-
-      // Clear the selected values in the filter form
-      this.filterForm.patchValue({
-        ward: "",
-      });
-
-      this.resetWards = true;
+      this.clearLevelsAndResetForm(["wards"]);
     }
+  }
+
+  onThanaClear() {
+    this.clearLevelsAndResetForm(["wards"]);
+  }
+
+  private clearLevelsAndResetForm(levels: string[]) {
+    levels.forEach((level) => {
+      this[level] = [];
+    });
+
+    const patchObj = {};
+    levels.forEach((level) => {
+      const controlName = level.slice(0, -1);
+      patchObj[controlName] = "";
+    });
+
+    this.filterForm.patchValue(patchObj);
+
+    this.resetDistricts = levels.includes("districts");
+    this.resetUpazilas = levels.includes("upazilas");
+    this.resetThanas = levels.includes("thanas");
+    this.resetWards = levels.includes("wards");
   }
 
   ngOnDestroy() {

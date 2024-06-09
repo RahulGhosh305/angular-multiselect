@@ -1,3 +1,4 @@
+<!-- app.component.html -->
 <div class="container mt-5">
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="row">
@@ -8,6 +9,7 @@
             formControlName="division"
             [items]="divisions"
             (selectionChange)="onDivisionChange($event)"
+            (clearSelection)="onDivisionClear()"
             [reset]="resetDivisions"
           ></app-remulti-select>
         </div>
@@ -16,22 +18,23 @@
         <div class="form-group">
           <label for="district" class="mr-2">District:</label>
           <app-remulti-select
-            [reset]="resetDistricts"
             formControlName="district"
             [items]="districts"
             (selectionChange)="onDistrictChange($event)"
-          >
-          </app-remulti-select>
+            (clearSelection)="onDistrictClear()"
+            [reset]="resetDistricts"
+          ></app-remulti-select>
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-3">
         <div class="form-group">
           <label for="upazila" class="mr-2">Upazila:</label>
           <app-remulti-select
-            [reset]="resetUpazilas"
             formControlName="upazila"
             [items]="upazilas"
             (selectionChange)="onUpazilaChange($event)"
+            (clearSelection)="onUpazilaClear()"
+            [reset]="resetUpazilas"
           ></app-remulti-select>
         </div>
       </div>
@@ -39,10 +42,11 @@
         <div class="form-group">
           <label for="thana" class="mr-2">Thana:</label>
           <app-remulti-select
-            [reset]="resetThanas"
             formControlName="thana"
             [items]="thanas"
             (selectionChange)="onThanaChange($event)"
+            (clearSelection)="onThanaClear()"
+            [reset]="resetThanas"
           ></app-remulti-select>
         </div>
       </div>
@@ -50,9 +54,9 @@
         <div class="form-group">
           <label for="ward" class="mr-2">Ward:</label>
           <app-remulti-select
-            [reset]="resetWards"
             formControlName="ward"
             [items]="wards"
+            [reset]="resetWards"
           ></app-remulti-select>
         </div>
       </div>

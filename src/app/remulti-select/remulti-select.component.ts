@@ -20,6 +20,7 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
   @Input() items: any[] = [];
   @Input() reset: boolean = false;
   @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() clearSelection: EventEmitter<void> = new EventEmitter<void>(); // New event emitter
 
   selectedItems: any[] = [];
   dropdownOpen = false;
@@ -61,6 +62,11 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
     }
     this.allSelected = this.selectedItems.length === this.items.length;
     this.selectionChange.emit(this.selectedItems);
+
+    // Emit clearSelection event if all items are deselected
+    if (this.selectedItems.length === 0) {
+      this.clearSelection.emit();
+    }
   }
 
   filterItems(event: any) {
@@ -78,6 +84,11 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
     }
     this.allSelected = event.target.checked;
     this.selectionChange.emit(this.selectedItems);
+
+    // Emit clearSelection event if all items are deselected
+    if (this.selectedItems.length === 0) {
+      this.clearSelection.emit();
+    }
   }
 
   @HostListener("document:click", ["$event"])

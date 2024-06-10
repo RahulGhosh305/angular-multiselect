@@ -237,10 +237,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.filterForm.patchValue(patchObj);
 
-    this.resetDistricts = levels.includes("districts");
-    this.resetUpazilas = levels.includes("upazilas");
-    this.resetThanas = levels.includes("thanas");
-    this.resetWards = levels.includes("wards");
+    // Reset flags
+    if (levels.includes("districts")) this.resetDistricts = true;
+    if (levels.includes("upazilas")) this.resetUpazilas = true;
+    if (levels.includes("thanas")) this.resetThanas = true;
+    if (levels.includes("wards")) this.resetWards = true;
+
+    // Set the flags back to false after resetting
+    setTimeout(() => {
+      this.resetDistricts = false;
+      this.resetUpazilas = false;
+      this.resetThanas = false;
+      this.resetWards = false;
+    }, 0);
   }
 
   ngOnDestroy() {

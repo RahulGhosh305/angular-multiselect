@@ -1,30 +1,41 @@
 {
   "divisions": [
     { "id": "1", "name": "Chattogram" },
-    { "id": "2", "name": "Dhaka" }
+    { "id": "2", "name": "Dhaka" },
+    { "id": "3", "name": "Syhlet" }
   ],
   "districts": [
     { "id": "1", "divisionId": "1", "name": "Chattogram" },
     { "id": "2", "divisionId": "1", "name": "Cox's Bazar" },
     { "id": "3", "divisionId": "2", "name": "Dhaka" },
-    { "id": "4", "divisionId": "2", "name": "Gazipur" }
+    { "id": "4", "divisionId": "2", "name": "Gazipur" },
+    { "id": "5", "divisionId": "3", "name": "Sunamganj" },
+    { "id": "6", "divisionId": "3", "name": "Jilanibazar" }
   ],
   "upazilas": [
     { "id": "1", "districtId": "1", "name": "Anwara" },
     { "id": "2", "districtId": "1", "name": "Banshkhali" },
     { "id": "3", "districtId": "3", "name": "Dhanmondi" },
-    { "id": "4", "districtId": "3", "name": "Mirpur" }
+    { "id": "4", "districtId": "3", "name": "Mirpur" },
+    { "id": "5", "districtId": "5", "name": "Baroi" },
+    { "id": "6", "districtId": "6", "name": "Bijra" }
   ],
   "thanas": [
     { "id": "1", "upazilaId": "1", "name": "Anwara Thana" },
     { "id": "2", "upazilaId": "2", "name": "Banshkhali Thana" },
     { "id": "3", "upazilaId": "3", "name": "Dhanmondi Thana" },
-    { "id": "4", "upazilaId": "4", "name": "Mirpur Thana" }
+    { "id": "4", "upazilaId": "4", "name": "Mirpur Thana" },
+    { "id": "5", "upazilaId": "5", "name": "Baroi Thana" },
+    { "id": "6", "upazilaId": "6", "name": "Bijra Thana" }
   ],
   "wards": [
     { "id": "1", "thanaId": "1", "name": "Ward 1" },
     { "id": "2", "thanaId": "2", "name": "Ward 2" },
     { "id": "3", "thanaId": "3", "name": "Ward 3" },
-    { "id": "4", "thanaId": "4", "name": "Ward 4" }
+    { "id": "4", "thanaId": "4", "name": "Ward 4" },
+    { "id": "5", "thanaId": "5", "name": "Ward 1" },
+    { "id": "6", "thanaId": "5", "name": "Ward 2" },
+    { "id": "7", "thanaId": "5", "name": "Ward 3" },
+    { "id": "8", "thanaId": "6", "name": "Ward 1" }
   ]
 }

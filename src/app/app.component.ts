@@ -2,6 +2,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { getCategorizedIds } from "src/utils";
 import { LocationService } from "./location.service";
 
 @Component({
@@ -154,7 +155,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.filterForm.valid) {
-      console.log(this.filterForm.value);
+      // console.log(this.filterForm.value);
+      const result = getCategorizedIds(this.filterForm.value);
+      console.log(result);
     }
   }
 

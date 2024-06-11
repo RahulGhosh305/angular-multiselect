@@ -48,6 +48,7 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
 
   writeValue(selectedItems: any[]): void {
     this.selectedItems = selectedItems || [];
+    this.onChange(this.selectedItems);
   }
 
   constructor(private elementRef: ElementRef) {}
@@ -67,6 +68,7 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
         this.selectedItems = [];
         this.allSelected = false;
         this.selectionChange.emit(this.selectedItems);
+        this.onChange(this.selectedItems);
       });
     }
   }
@@ -87,6 +89,7 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
     }
     this.allSelected = this.selectedItems.length === this.items.length;
     this.selectionChange.emit(this.selectedItems);
+    this.onChange(this.selectedItems);
 
     // Emit clearSelection event if all items are deselected
     if (this.selectedItems.length === 0) {
@@ -109,6 +112,7 @@ export class RemultiSelectComponent implements OnInit, OnChanges {
     }
     this.allSelected = event.target.checked;
     this.selectionChange.emit(this.selectedItems);
+    this.onChange(this.selectedItems);
 
     // Emit clearSelection event if all items are deselected
     if (this.selectedItems.length === 0) {

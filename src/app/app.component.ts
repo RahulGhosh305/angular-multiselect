@@ -48,33 +48,34 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscribeToFormChanges() {
     this.subscriptions.push(
       this.filterForm.get("division").valueChanges.subscribe((value) => {
-        if (value) {
-          this.getDistricts(value);
-        }
+        // if (value) {
+        //   console.log(value);
+        //   this.getDistricts(value);
+        // }
       })
     );
 
     this.subscriptions.push(
       this.filterForm.get("district").valueChanges.subscribe((value) => {
-        if (value) {
-          this.getUpazilas(value);
-        }
+        // if (value) {
+        //   this.getUpazilas(value);
+        // }
       })
     );
 
     this.subscriptions.push(
       this.filterForm.get("upazila").valueChanges.subscribe((value) => {
-        if (value) {
-          this.getThanas(value);
-        }
+        // if (value) {
+        //   this.getThanas(value);
+        // }
       })
     );
 
     this.subscriptions.push(
       this.filterForm.get("thana").valueChanges.subscribe((value) => {
-        if (value) {
-          this.getWards(value);
-        }
+        // if (value) {
+        //   this.getWards(value);
+        // }
       })
     );
   }
@@ -83,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.locationService.getDivisions().subscribe(
       (data) => {
         this.divisions = data;
-        console.log("Divisions:", this.divisions);
+        // console.log("Divisions:", this.divisions);
       },
       (error) => {
         console.error("Error fetching divisions:", error);
@@ -95,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.locationService.getDistricts(divisionId).subscribe(
       (data) => {
         this.districts = data;
-        console.log("Districts:", this.districts);
+        // console.log("Districts:", this.districts);
         this.filterForm.patchValue({
           district: "",
           upazila: "",
@@ -114,7 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.locationService.getUpazilas(districtId).subscribe(
       (data) => {
         this.upazilas = data;
-        console.log("Upazilas:", this.upazilas);
+        // console.log("Upazilas:", this.upazilas);
         this.filterForm.patchValue({ upazila: "", thana: "", ward: "" });
         this.clearSubsequentLevels(["thanas", "wards"]);
       },
@@ -128,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.locationService.getThanas(upazilaId).subscribe(
       (data) => {
         this.thanas = data;
-        console.log("Thanas:", this.thanas);
+        // console.log("Thanas:", this.thanas);
         this.filterForm.patchValue({ thana: "", ward: "" });
         this.clearSubsequentLevels(["wards"]);
       },
@@ -142,7 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.locationService.getWards(thanaId).subscribe(
       (data) => {
         this.wards = data;
-        console.log("Wards:", this.wards);
+        // console.log("Wards:", this.wards);
         this.filterForm.patchValue({ ward: "" });
       },
       (error) => {
